@@ -32,6 +32,7 @@
 #include <mutex>
 #include <sys/mman.h>
 #include <unistd.h>
+#include <xkbcommon/xkbcommon.h>
 
 // This include order is necessary to enforce the Wayland EGL platform.
 #include <wayland-egl.h>

@@ -230,6 +230,7 @@ endif ()
 add_definitions(-DBUILDING_WPE__=1)
 add_definitions(-DGETTEXT_PACKAGE="WPE")
 add_definitions(-DJSC_GLIB_API_ENABLED)
+add_definitions(-DWPE_ENABLE_XKB=1)
 
 if (EXISTS "${TOOLS_DIR}/glib/svn-revision")
     execute_process(COMMAND ${TOOLS_DIR}/glib/svn-revision ERROR_QUIET OUTPUT_VARIABLE SVN_REVISION OUTPUT_STRIP_TRAILING_WHITESPACE)
