@@ -119,7 +119,6 @@ function installDependenciesWithApt {
         gyp \
         libegl1-mesa-dev \
         libexpat1-dev \
-        libfdk-aac-dev \
         libgles2-mesa-dev \
         libluajit-5.1-dev \
         libmount-dev \
