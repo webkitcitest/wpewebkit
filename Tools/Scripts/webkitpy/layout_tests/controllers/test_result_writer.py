@@ -179,7 +179,11 @@ class TestResultWriter(object):
 
     def create_audio_diff_and_write_result(self, actual_audio, expected_audio):
         diff_filename = self.output_filename(self.FILENAME_SUFFIX_DIFF + '.txt')
-        self._write_text_file(diff_filename, WaveDiff(expected_audio, actual_audio).diffText())
+        try:
+            diffText = WaveDiff(expected_audio, actual_audio).diffText()
+        except EOFError:
+            diffText = "FATAL: Obtained EOFError when trying to calculate WaveDiff()"
+        self._write_text_file(diff_filename, diffText)
 
     def write_image_files(self, actual_image, expected_image):
         self.write_output_files('.png', actual_image, expected_image)
