@@ -71,6 +71,11 @@ class WPEPort(Port):
     def _driver_class(self):
         return HeadlessDriver
 
+    def _prepend_to_env_value(self, new_value, current_value):
+        if len(current_value) > 0:
+            return new_value + ":" + current_value
+        return new_value
+
     def setup_environ_for_server(self, server_name=None):
         environment = super(WPEPort, self).setup_environ_for_server(server_name)
         environment['G_DEBUG'] = 'fatal-criticals'
@@ -78,6 +83,8 @@ class WPEPort(Port):
         environment['TEST_RUNNER_INJECTED_BUNDLE_FILENAME'] = self._build_path('lib', 'libTestRunnerInjectedBundle.so')
         environment['TEST_RUNNER_TEST_PLUGIN_PATH'] = self._build_path('lib', 'plugins')
         environment['WEBKIT_EXEC_PATH'] = self._build_path('bin')
+        environment['LD_LIBRARY_PATH'] = self._prepend_to_env_value(self._build_path('lib'), environment.get('LD_LIBRARY_PATH', ''))
+        environment['WEBKIT_FONTS_CONF_DIR'] = self.path_from_webkit_base('Tools', 'WebKitTestRunner', 'gtk', 'fonts')
         self._copy_value_from_environ_if_set(environment, 'WEBKIT_OUTPUTDIR')
         self._copy_value_from_environ_if_set(environment, 'WEBKIT_TOP_LEVEL')
         self._copy_value_from_environ_if_set(environment, 'WEBKIT_DEBUG')
