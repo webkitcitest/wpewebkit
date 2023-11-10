@@ -114,6 +114,11 @@ class GtkPort(Port):
         super(GtkPort, self).clean_up_test_run()
         self._pulseaudio_sanitizer.restore_pulseaudio_module()
 
+    def _prepend_to_env_value(self, new_value, current_value):
+        if len(current_value) > 0:
+            return new_value + ":" + current_value
+        return new_value
+
     def setup_environ_for_server(self, server_name=None):
         environment = super(GtkPort, self).setup_environ_for_server(server_name)
         environment['G_DEBUG'] = 'fatal-criticals'
@@ -121,6 +126,7 @@ class GtkPort(Port):
         environment['LIBOVERLAY_SCROLLBAR'] = '0'
         environment['TEST_RUNNER_INJECTED_BUNDLE_FILENAME'] = self._build_path('lib', 'libTestRunnerInjectedBundle.so')
         environment['TEST_RUNNER_TEST_PLUGIN_PATH'] = self._build_path('lib', 'plugins')
+        environment['LD_LIBRARY_PATH'] = self._prepend_to_env_value(self._build_path('lib'), environment.get('LD_LIBRARY_PATH', '')
         self._copy_value_from_environ_if_set(environment, 'WEBKIT_OUTPUTDIR')
         self._copy_value_from_environ_if_set(environment, 'WEBKIT_TOP_LEVEL')
         self._copy_value_from_environ_if_set(environment, 'WEBKIT_DEBUG')
